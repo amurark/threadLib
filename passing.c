@@ -1,7 +1,26 @@
 #include <stdio.h>
 #include "mythread.h"
 
-int mode = 0;
+int mode = 1;
+
+// void t0(void * n)
+// {
+//   MyThread T;
+//   int n1 = (int)n; 
+//   printf("t0 start %d\n", n1);
+
+//   int n2 = n1 -1 ;
+//   // if (n1 > 0) {
+//   //   printf("t0 create\n");
+//   T = MyThreadCreate(t0, (void *)n2);
+//   //   if (mode == 1)
+//   //     MyThreadYield();
+//   //   else if (mode == 2)
+//   //     MyThreadJoin(T);
+//   // }
+//   printf("t0 end\n");
+//   //MyThreadExit();
+// }
 
 void t0(void * n)
 {
@@ -11,14 +30,17 @@ void t0(void * n)
   printf("t0 start %d\n", n1);
 
   int n2 = n1 -1 ;
-  // if (n1 > 0) {
-  //   printf("t0 create\n");
-  T = MyThreadCreate(t0, (void *)n2);
-  //   if (mode == 1)
-  //     MyThreadYield();
-  //   else if (mode == 2)
-  //     MyThreadJoin(T);
-  // }
+  if (n1 > 0) {
+    printf("t0 create\n");
+    T = MyThreadCreate(t0, (void *)n2);
+    if (mode == 1)
+      MyThreadYield();
+      //printf("Wassuo123");
+
+    else if (mode == 2)
+      printf("Wassuo");
+      //MyThreadJoin(T);
+  }
   printf("t0 end\n");
   //MyThreadExit();
 }

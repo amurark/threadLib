@@ -13,17 +13,19 @@ typedef struct myThread {
     ucontext_t Thread;
     int state;
     struct myThread *parent;
+    int sNum;
 }_MyThread;
 
 struct node {
-	_MyThread *currentThread;
+	_MyThread *Thread;
 	struct node *ptr;
 }*front, *rear, *temp, *front1;
 
 typedef struct queue {
 	struct node *front;
 	struct node *rear;
+	int size;
 }Queue;
 
 void enqueue(_MyThread *thread, Queue *q);
-int queuesize();
+int checkIfQueueIsEmpty(Queue *queue);

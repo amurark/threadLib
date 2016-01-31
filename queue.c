@@ -1,48 +1,44 @@
 #include "mythread.h"
 #include "internal.h"
 
-int count = 0;
-
 void create() {
 	front = rear = NULL;
 }
 
-int queuesize()
-{
-    return count;
-}
-
 void enqueue(_MyThread *thread, Queue *queue) {
 	if(rear == NULL) {
-		printf("Enqueuing: The first thread is added to ready queue.");
+		printf("Enqueuing: The first thread is added to ready queue.\n");
 		rear = (struct node *)malloc(sizeof(struct node));
-		rear->currentThread = thread;
+		rear->Thread = thread;
 		rear->ptr = NULL;
 		front = rear;
+
 		queue->rear = rear;
 		queue->front = rear;
+		queue->size = 1;
 	} else {
-		printf("Enqueuing: Another thread added to ready queue.");
+		printf("Enqueuing: Another thread added to ready queue.\n");
 		temp = (struct node *)malloc(sizeof(struct node));
-		temp->currentThread = thread;
+		temp->Thread = thread;
 		temp->ptr = NULL;
 		rear->ptr = temp;
 		rear = temp;
+
 		queue->rear = rear;
+		queue->size++;
 	}
-	count++;
 }
 
 _MyThread *dequeue(Queue *queue) {
+	_MyThread *temp;
 	front1 = front;
 	if(front1 == NULL) {
-		printf("Queue Empty: No element in the queue.");
+		printf("Queue Empty: No element in the queue.\n");
 		return 0;
 	} else {
-		_MyThread *temp;
 		if(front1->ptr == NULL) {
-			printf("Last Element: Last Element being dequeued, no more elements left in the queue.");
-			temp = front->currentThread;
+			printf("Last Element: Last Element being dequeued, no more elements left in the queue.\n");
+			temp = front->Thread;
 			free(front);
 			front = NULL;
 			rear = NULL;
@@ -51,17 +47,26 @@ _MyThread *dequeue(Queue *queue) {
 			 */
 			queue->rear = NULL;
 			queue->front = NULL;
-			return temp;
+
+			//TODO: TEMP
+			if(--queue->size == 0) {
+				printf("Last Element dequeue confirmed.\n");
+			}
+			queue->size = 0;
 		} else {
-			printf("Dequeuing...");
-			temp = front->currentThread;
+			printf("Dequeuing...\n");
+			temp = front->Thread;
 			front1 = front1->ptr;
 			free(front);
 			front = front1;
 			queue->front = front;
-			return temp;
+			queue->size--;
+			printf("\nmama mia %d\n",temp->sNum);
+			
 		}
 	}
+	printf("hey qwerty %d\n",temp->sNum);
+	return temp;
 }
 
 int checkIfQueueIsEmpty(Queue *queue) {
